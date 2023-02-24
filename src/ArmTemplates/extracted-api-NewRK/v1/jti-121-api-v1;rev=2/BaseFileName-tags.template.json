@@ -1,0 +1,299 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "apimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/Account')]",
+      "properties": {
+        "displayName": "Account"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/AccountClassification')]",
+      "properties": {
+        "displayName": "AccountClassification"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/ActivityType')]",
+      "properties": {
+        "displayName": "ActivityType"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/Agency')]",
+      "properties": {
+        "displayName": "Agency"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/AmbassadorRoute')]",
+      "properties": {
+        "displayName": "AmbassadorRoute"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/Brand')]",
+      "properties": {
+        "displayName": "Brand"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/ConfigurableFields')]",
+      "properties": {
+        "displayName": "ConfigurableFields"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/Content')]",
+      "properties": {
+        "displayName": "Content"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/Currencies')]",
+      "properties": {
+        "displayName": "Currencies"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/Departments')]",
+      "properties": {
+        "displayName": "Departments"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/DistributionChannel')]",
+      "properties": {
+        "displayName": "DistributionChannel"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/DynamicQuestionary')]",
+      "properties": {
+        "displayName": "DynamicQuestionary"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/ExternalApplication')]",
+      "properties": {
+        "displayName": "ExternalApplication"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/Game')]",
+      "properties": {
+        "displayName": "Game"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/GeneralSettings')]",
+      "properties": {
+        "displayName": "GeneralSettings"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/Home')]",
+      "properties": {
+        "displayName": "Home"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/Incentive')]",
+      "properties": {
+        "displayName": "Incentive"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/IncentiveRule')]",
+      "properties": {
+        "displayName": "IncentiveRule"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/InterfaceFields')]",
+      "properties": {
+        "displayName": "InterfaceFields"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/Municipality')]",
+      "properties": {
+        "displayName": "Municipality"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/Page')]",
+      "properties": {
+        "displayName": "Page"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/PagesConfiguration')]",
+      "properties": {
+        "displayName": "PagesConfiguration"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/Product')]",
+      "properties": {
+        "displayName": "Product"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/ProductCategory')]",
+      "properties": {
+        "displayName": "ProductCategory"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/ProductCriteria')]",
+      "properties": {
+        "displayName": "ProductCriteria"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/Region')]",
+      "properties": {
+        "displayName": "Region"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/ReportOutputField')]",
+      "properties": {
+        "displayName": "ReportOutputField"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/StockAnalysis')]",
+      "properties": {
+        "displayName": "StockAnalysis"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/SubBrand')]",
+      "properties": {
+        "displayName": "SubBrand"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/Survey')]",
+      "properties": {
+        "displayName": "Survey"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/SurveyLog')]",
+      "properties": {
+        "displayName": "SurveyLog"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/SwitchBoardMatrix')]",
+      "properties": {
+        "displayName": "SwitchBoardMatrix"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/Templates')]",
+      "properties": {
+        "displayName": "Templates"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/Token')]",
+      "properties": {
+        "displayName": "Token"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/User')]",
+      "properties": {
+        "displayName": "User"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/UserAccount')]",
+      "properties": {
+        "displayName": "UserAccount"
+      }
+    }
+  ]
+}

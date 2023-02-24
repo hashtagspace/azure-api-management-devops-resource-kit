@@ -2,7 +2,8 @@
   "sourceApimName": "apim-msfwex17-dev",
   "destinationApimName": "apim-msfnex23-sbx",
   "resourceGroup": "rgrp-msfwex17-02-esb-apim-dev",
-  "fileFolder": "extracted-TestedApi\\v1",
+  "fileFolder": "extracted-api-NewRK\\v1",
+  "apiName": "jti-121-api-v1",
   "baseFileName": "BaseFileName",
-  "apiName": "jti-121-api-v1"
+  "includeAllRevisions": true
 }

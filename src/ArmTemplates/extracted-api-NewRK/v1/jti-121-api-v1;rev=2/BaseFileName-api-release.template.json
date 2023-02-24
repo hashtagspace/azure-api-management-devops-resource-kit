@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "apimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/apis/releases",
+      "name": "[concat(parameters('apimServiceName'), '/jti-121-api-v1;rev=2/3806eb0b-a339-4df1-9763-a31045c84ec7')]",
+      "properties": {
+        "apiId": "/apis/jti-121-api-v1;rev=2"
+      }
+    }
+  ]
+}
