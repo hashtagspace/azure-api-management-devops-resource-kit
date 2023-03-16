@@ -1,0 +1,59 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "apimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service",
+      "name": "[concat(parameters('apimServiceName'))]",
+      "identity": {
+        "principalId": "e5a7ea74-d77a-432f-bcde-4a2dbc9f75bf",
+        "tenantId": "705d07a3-2eea-4f3b-ab59-65ca29abeb26",
+        "type": "SystemAssigned"
+      },
+      "location": "West Europe",
+      "tags": {
+        "brn": "IT15075501",
+        "cost Center": "16031",
+        "description": "ESB DEV/QA",
+        "it Owner Group": "GDC-MMDC-ERP-APPS",
+        "lifecycle End": "31DEC2025",
+        "owned By": "Popovici, Alexandru",
+        "owner Backup Person": "Contreras, Ignacio",
+        "region": "WW"
+      },
+      "sku": {
+        "capacity": 1,
+        "name": "Developer"
+      },
+      "properties": {
+        "apiVersionConstraint": {},
+        "customProperties": {
+          "microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": "False",
+          "microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11": "False",
+          "microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30": "False",
+          "microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168": "False",
+          "microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10": "False",
+          "microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11": "False",
+          "microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30": "False",
+          "microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2": "False"
+        },
+        "disableGateway": false,
+        "notificationSenderEmail": "apimgmt-noreply@mail.windowsazure.com",
+        "platformVersion": "stv2",
+        "provisioningState": "Succeeded",
+        "publicNetworkAccess": "Enabled",
+        "publisherEmail": "GVAAPIMGMT@jti.com",
+        "publisherName": "JT International SA",
+        "restore": false,
+        "targetProvisioningState": "",
+        "virtualNetworkType": "None"
+      }
+    }
+  ]
+}

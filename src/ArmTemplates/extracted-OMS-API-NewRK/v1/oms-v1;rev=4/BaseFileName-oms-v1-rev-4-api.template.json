@@ -1,0 +1,948 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "apimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/apis",
+      "name": "[concat(parameters('apimServiceName'), '/oms-v1;rev=4')]",
+      "dependsOn": [],
+      "properties": {
+        "description": "___________________________________________________________________________________________________________\n\n## Description\nRestFul Api for Import feedback and check state of the  on Feedback Management System\n\n## Authorization\nThis API will require authorization OAuth 2.0 **(JTI MS AAD)** and authorization grant type (client_credentials) in developer portal.\n\n## Subscription\nThis API requires subscription *approval* that needs to be approved by this API owner (BTS-P&C). Supscription request needs to be made from any of the API Products containing this API.\nOnce subscription is approved, the subscriber will optain an API Key that will be required to call these API operations (it will help identiying the client on each and every request).\n\nIt is the responsability of the subscriber keep this API key secret and renew it with certain frequency, and in their own schedule.\n\n## Security\nThis API requires OAuth Client authentication. Therefore, any future application willing to call this API requires being registered in JTI AAD and granted access to this API app regitration and to the corresponding scope.\n\n ### API app registration to request access to API for each environment:  \n- DEV AAD Application =  app-api-OMS-4DES-DEV (CHG235631) / AAD API app ID = a8e5558f-452f-464d-89ee-cecf815e8ed3\n- QA AAD Applicaiton = app-api-OMS-4DES-QA (CHG235631) / AAD API app ID = 7f058337-b4a4-4e06-ac5a-533ce0e4a136\n- PROD AAD Application = app-api-OMS-4DES-PRD (CHG235631) / AAD API app ID = ddb71d27-679b-4de7-aae6-6ec0cca49e02\n\nAPI scope (API role) = Full access to any SubMarket Data\n\n*Note: Consumer application registration needs to be raised in Service Now to **ICS team**.*\n\n___________________________________________________________________________________________________________",
+        "authenticationSettings": {
+          "oAuth2": {
+            "authorizationServerId": "JTI-MS-AAD-CC",
+            "scope": "api://a8e5558f-452f-464d-89ee-cecf815e8ed3/.default"
+          },
+          "subscriptionKeyRequired": false
+        },
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
+        },
+        "apiRevision": "4",
+        "apiVersion": "v1",
+        "apiRevisionDescription": "Add Submarket code in the backend API request and additional endpoints for OMS customers (read & forget)",
+        "apiVersionSetId": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('apimServiceName')), '/apiVersionSets/628b93acde136e9e8501eaf8')]",
+        "subscriptionRequired": true,
+        "displayName": "OMS-DES API",
+        "serviceUrl": "https://msfwep01-srv-16:301",
+        "path": "oms",
+        "protocols": [
+          "https"
+        ]
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/apis/schemas",
+      "name": "[concat(parameters('apimServiceName'), '/oms-v1;rev=4/62d148a75ddd170ba407b792')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apimServiceName'), 'oms-v1;rev=4')]"
+      ],
+      "properties": {
+        "contentType": "application/vnd.ms-azure-apim.swagger.definitions+json",
+        "document": {
+          "definitions": {
+            "InventoryItem": {
+              "required": [
+                "sku",
+                "result"
+              ],
+              "type": "object",
+              "properties": {
+                "sku": {
+                  "type": "string"
+                },
+                "result": {
+                  "$ref": "#/definitions/Result"
+                }
+              },
+              "example": {
+                "sku": "string",
+                "result": {
+                  "status": true,
+                  "message": "string"
+                }
+              }
+            },
+            "Result": {
+              "required": [
+                "status"
+              ],
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            },
+            "Product": {
+              "required": [
+                "sku",
+                "result"
+              ],
+              "type": "object",
+              "properties": {
+                "sku": {
+                  "type": "string"
+                },
+                "result": {
+                  "$ref": "#/definitions/Result"
+                }
+              },
+              "example": {
+                "sku": "string",
+                "result": {
+                  "status": true,
+                  "message": "string"
+                }
+              }
+            },
+            "Customer": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "foreNames": {
+                  "type": "string"
+                },
+                "surname": {
+                  "type": "string"
+                },
+                "add1": {
+                  "type": "string"
+                },
+                "add2": {
+                  "type": "string"
+                },
+                "add3": {
+                  "type": "string"
+                },
+                "town": {
+                  "type": "string"
+                },
+                "county": {
+                  "type": "string"
+                },
+                "postCode": {
+                  "type": "string"
+                },
+                "country": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "integer"
+                }
+              },
+              "example": {
+                "title": "",
+                "foreNames": "Antonio",
+                "surname": "Grande Jim",
+                "add1": "Members Hill,",
+                "add2": "12",
+                "add3": "1",
+                "town": "Weybridge",
+                "county": "",
+                "postCode": "KT13 0QU",
+                "country": "GB",
+                "email": "antoniogrand@gmail.com",
+                "status": 2
+              }
+            },
+            "Error OMS": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "Error APIM": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "name": "[concat(parameters('apimServiceName'), '/applicationinsights')]",
+      "dependsOn": [],
+      "properties": {
+        "alwaysLog": "allErrors",
+        "loggerId": "/subscriptions/55b6f82d-1c3f-431c-9acd-3e304fa34ca2/resourceGroups/rgrp-msfwex17-02-esb-apim-dev/providers/Microsoft.ApiManagement/service/apim-msfwex17-dev/loggers/appins-msfwex17-02-apimlogs-dev",
+        "httpCorrelationProtocol": "Legacy",
+        "verbosity": "information",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 30.0
+        },
+        "frontend": {
+          "request": {
+            "headers": [],
+            "body": {
+              "bytes": 0
+            }
+          },
+          "response": {
+            "headers": [],
+            "body": {
+              "bytes": 0
+            }
+          }
+        },
+        "backend": {
+          "request": {
+            "headers": [],
+            "body": {
+              "bytes": 0
+            }
+          },
+          "response": {
+            "headers": [],
+            "body": {
+              "bytes": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/apis/tags",
+      "name": "[concat(parameters('apimServiceName'), '/oms-v1;rev=4/OMS')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apimServiceName'), 'oms-v1;rev=4')]"
+      ],
+      "properties": {
+        "displayName": "OMS"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "name": "[concat(parameters('apimServiceName'), '/oms-v1;rev=4/customer-delete-by-id')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apimServiceName'), 'oms-v1;rev=4')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('apimServiceName'), 'oms-v1;rev=4', '62d148a75ddd170ba407b792')]"
+      ],
+      "properties": {
+        "displayName": "Customer Delete (anonymize)",
+        "method": "DELETE",
+        "urlTemplate": "/{submarket}/customers/{customer-id}",
+        "description": "Delete (anonymize) Customers by ID",
+        "templateParameters": [
+          {
+            "name": "submarket",
+            "description": "Market/Submarket code",
+            "type": "string",
+            "defaultValue": "UKP",
+            "required": true,
+            "values": [
+              "UKP",
+              "UKN",
+              "ES",
+              "DE"
+            ]
+          },
+          {
+            "name": "customer-id",
+            "description": "DES Customer ID = uuid",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "responses": [
+          {
+            "description": "Customer ID accepted for deletion (anonymization) by OMS",
+            "headers": [],
+            "representations": [],
+            "statusCode": 202
+          },
+          {
+            "description": "The Customer ID (UUID) is not following the required format - Not a valid UUID value",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "62d148a75ddd170ba407b792",
+                "typeName": "Error OMS",
+                "examples": {
+                  "default": {
+                    "value": {
+                      "errors": [
+                        "Invalid UUID value"
+                      ]
+                    }
+                  }
+                }
+              }
+            ],
+            "statusCode": 400
+          },
+          {
+            "description": "APIM Authorization errors",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "62d148a75ddd170ba407b792",
+                "typeName": "Error APIM",
+                "examples": {
+                  "default": {
+                    "value": {
+                      "statusCode": 401,
+                      "message": "Unauthorized. Access token is missing or invalid."
+                    }
+                  }
+                }
+              }
+            ],
+            "statusCode": 401
+          },
+          {
+            "description": "The Customer ID (UUID) does not exist in OMS",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "62d148a75ddd170ba407b792",
+                "typeName": "Error OMS",
+                "examples": {
+                  "default": {
+                    "value": {
+                      "errors": [
+                        "Customer not found"
+                      ]
+                    }
+                  }
+                }
+              }
+            ],
+            "statusCode": 404
+          },
+          {
+            "description": "Generic OMS Errors",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "62d148a75ddd170ba407b792",
+                "typeName": "Error OMS",
+                "examples": {
+                  "default": {
+                    "value": {
+                      "errors": [
+                        "string"
+                      ]
+                    }
+                  }
+                }
+              }
+            ],
+            "statusCode": 500
+          },
+          {
+            "description": "The OMS market/submarket code is not yet implemented (either by OMS and/or APIM team)",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "62d148a75ddd170ba407b792",
+                "typeName": "Error APIM",
+                "examples": {
+                  "default": {
+                    "value": {
+                      "statusCode": 501,
+                      "message": "The OMS Submarket DE is not configured in this API. Contact API owner to request adding it."
+                    }
+                  }
+                }
+              }
+            ],
+            "statusCode": 501
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "name": "[concat(parameters('apimServiceName'), '/oms-v1;rev=4/customer-read-by-id')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apimServiceName'), 'oms-v1;rev=4')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('apimServiceName'), 'oms-v1;rev=4', '62d148a75ddd170ba407b792')]"
+      ],
+      "properties": {
+        "displayName": "Customer Read by ID",
+        "method": "GET",
+        "urlTemplate": "/{submarket}/customers/{customer-id}",
+        "description": "Read Customers by ID",
+        "templateParameters": [
+          {
+            "name": "submarket",
+            "description": "Market/Submarket code",
+            "type": "string",
+            "defaultValue": "UKP",
+            "required": true,
+            "values": [
+              "UKP",
+              "UKN",
+              "ES",
+              "DE"
+            ]
+          },
+          {
+            "name": "customer-id",
+            "description": "DES Customer ID = uuid",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "responses": [
+          {
+            "description": "Customer Read Successfully",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "62d148a75ddd170ba407b792",
+                "typeName": "Customer",
+                "examples": {
+                  "default": {
+                    "value": {
+                      "title": "",
+                      "foreNames": "Antonio",
+                      "surname": "Grande Jim",
+                      "add1": "Members Hill,",
+                      "add2": "12",
+                      "add3": "1",
+                      "town": "Weybridge",
+                      "county": "",
+                      "postCode": "KT13 0QU",
+                      "country": "GB",
+                      "email": "antoniogrand@gmail.com",
+                      "status": 2
+                    }
+                  }
+                }
+              }
+            ],
+            "statusCode": 200
+          },
+          {
+            "description": "The Customer ID (UUID) is not following the required format - Not a valid UUID value",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "62d148a75ddd170ba407b792",
+                "typeName": "Error OMS",
+                "examples": {
+                  "default": {
+                    "value": {
+                      "errors": [
+                        "Invalid UUID value"
+                      ]
+                    }
+                  }
+                }
+              }
+            ],
+            "statusCode": 400
+          },
+          {
+            "description": "APIM Authorization errors",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "62d148a75ddd170ba407b792",
+                "typeName": "Error APIM",
+                "examples": {
+                  "default": {
+                    "value": {
+                      "statusCode": 401,
+                      "message": "Unauthorized. Access token is missing or invalid."
+                    }
+                  }
+                }
+              }
+            ],
+            "statusCode": 401
+          },
+          {
+            "description": "The Customer ID (UUID) does not exist in OMS",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "62d148a75ddd170ba407b792",
+                "typeName": "Error OMS",
+                "examples": {
+                  "default": {
+                    "value": {
+                      "errors": [
+                        "Customer not found"
+                      ]
+                    }
+                  }
+                }
+              }
+            ],
+            "statusCode": 404
+          },
+          {
+            "description": "Generic OMS Errors",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "62d148a75ddd170ba407b792",
+                "typeName": "Error OMS",
+                "examples": {
+                  "default": {
+                    "value": {
+                      "errors": [
+                        "string"
+                      ]
+                    }
+                  }
+                }
+              }
+            ],
+            "statusCode": 500
+          },
+          {
+            "description": "The OMS market/submarket code is not yet implemented (either by OMS and/or APIM team)",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "62d148a75ddd170ba407b792",
+                "typeName": "Error APIM",
+                "examples": {
+                  "default": {
+                    "value": {
+                      "statusCode": 501,
+                      "message": "The OMS Submarket DE is not configured in this API. Contact API owner to request adding it."
+                    }
+                  }
+                }
+              }
+            ],
+            "statusCode": 501
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "name": "[concat(parameters('apimServiceName'), '/oms-v1;rev=4/Inventory_Put')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apimServiceName'), 'oms-v1;rev=4')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('apimServiceName'), 'oms-v1;rev=4', '62d148a75ddd170ba407b792')]"
+      ],
+      "properties": {
+        "displayName": "Update a waiting inventory action with a success / failure result.",
+        "method": "PUT",
+        "urlTemplate": "/{submarket}/inventory",
+        "description": "Update a waiting inventory action with a success / failure result.",
+        "templateParameters": [
+          {
+            "name": "submarket",
+            "description": "/{submarket}/inventory",
+            "type": "string",
+            "defaultValue": "ukp",
+            "required": true,
+            "values": [
+              "ukp",
+              "ukn"
+            ]
+          }
+        ],
+        "request": {
+          "headers": [],
+          "queryParameters": [],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "schemaId": "62d148a75ddd170ba407b792",
+              "typeName": "InventoryItem",
+              "examples": {
+                "default": {
+                  "value": {
+                    "sku": "string",
+                    "result": {
+                      "status": true,
+                      "message": "string"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "responses": [
+          {
+            "description": "Product Stock DES update result successfully notified in OMS ",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ],
+            "statusCode": 200
+          },
+          {
+            "description": "Product not found in OMS or not waiting for DES results on products updates",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "62d148a75ddd170ba407b792",
+                "typeName": "Error OMS",
+                "examples": {
+                  "default": {
+                    "value": {
+                      "errors": [
+                        "No Update Pending"
+                      ]
+                    }
+                  }
+                }
+              }
+            ],
+            "statusCode": 404
+          },
+          {
+            "description": "Generic OMS Errors",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "62d148a75ddd170ba407b792",
+                "typeName": "Error OMS",
+                "examples": {
+                  "default": {
+                    "value": {
+                      "errors": [
+                        "string"
+                      ]
+                    }
+                  }
+                }
+              }
+            ],
+            "statusCode": 500
+          },
+          {
+            "description": "APIM Authorization errors",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "62d148a75ddd170ba407b792",
+                "typeName": "Error APIM",
+                "examples": {
+                  "default": {
+                    "value": {
+                      "statusCode": 401,
+                      "message": "Unauthorized. Access token is missing or invalid."
+                    }
+                  }
+                }
+              }
+            ],
+            "statusCode": 401
+          },
+          {
+            "description": "The OMS market/submarket code is not yet implemented (either by OMS and/or APIM team)",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "62d148a75ddd170ba407b792",
+                "typeName": "Error APIM",
+                "examples": {
+                  "default": {
+                    "value": {
+                      "statusCode": 501,
+                      "message": "The OMS Submarket DE is not configured in this API. Contact API owner to request adding it."
+                    }
+                  }
+                }
+              }
+            ],
+            "statusCode": 501
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "name": "[concat(parameters('apimServiceName'), '/oms-v1;rev=4/Product_Put')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apimServiceName'), 'oms-v1;rev=4')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('apimServiceName'), 'oms-v1;rev=4', '62d148a75ddd170ba407b792')]"
+      ],
+      "properties": {
+        "displayName": "Update a waiting product action with a success / failure result.",
+        "method": "PUT",
+        "urlTemplate": "/{submarket}/products",
+        "description": "Update a waiting product action with a success / failure result.",
+        "templateParameters": [
+          {
+            "name": "submarket",
+            "description": "/{submarket}/product",
+            "type": "string",
+            "defaultValue": "ukp",
+            "required": true,
+            "values": [
+              "ukp",
+              "ukn"
+            ]
+          }
+        ],
+        "request": {
+          "headers": [],
+          "queryParameters": [],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "schemaId": "62d148a75ddd170ba407b792",
+              "typeName": "Product",
+              "examples": {
+                "default": {
+                  "value": {
+                    "sku": "string",
+                    "result": {
+                      "status": true,
+                      "message": "string"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "responses": [
+          {
+            "description": "Product DES create/update/delete result successfully notified in OMS ",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "62d148a75ddd170ba407b792",
+                "typeName": "Result",
+                "examples": {
+                  "default": {
+                    "value": {
+                      "status": true,
+                      "message": "string"
+                    }
+                  }
+                }
+              }
+            ],
+            "statusCode": 200
+          },
+          {
+            "description": "Product not found in OMS or not waiting for DES results on products updates",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "62d148a75ddd170ba407b792",
+                "typeName": "Error OMS",
+                "examples": {
+                  "default": {
+                    "value": {
+                      "errors": [
+                        "No Update Pending"
+                      ]
+                    }
+                  }
+                }
+              }
+            ],
+            "statusCode": 404
+          },
+          {
+            "description": "Generic OMS Errors",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "62d148a75ddd170ba407b792",
+                "typeName": "Error OMS",
+                "examples": {
+                  "default": {
+                    "value": {
+                      "errors": [
+                        "string"
+                      ]
+                    }
+                  }
+                }
+              }
+            ],
+            "statusCode": 500
+          },
+          {
+            "description": "APIM Authorization errors",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "62d148a75ddd170ba407b792",
+                "typeName": "Error APIM",
+                "examples": {
+                  "default": {
+                    "value": {
+                      "statusCode": 401,
+                      "message": "Unauthorized. Access token is missing or invalid."
+                    }
+                  }
+                }
+              }
+            ],
+            "statusCode": 401
+          },
+          {
+            "description": "The OMS market/submarket code is not yet implemented (either by OMS and/or APIM team)",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "62d148a75ddd170ba407b792",
+                "typeName": "Error APIM",
+                "examples": {
+                  "default": {
+                    "value": {
+                      "statusCode": 501,
+                      "message": "The OMS Submarket DE is not configured in this API. Contact API owner to request adding it."
+                    }
+                  }
+                }
+              }
+            ],
+            "statusCode": 501
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "name": "[concat(parameters('apimServiceName'), '/oms-v1;rev=4/customer-delete-by-id/policy')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('apimServiceName'), 'oms-v1;rev=4', 'customer-delete-by-id')]"
+      ],
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<rewrite-uri template=\"/api/v1/{submarket}/customers/{customer-id}/forget\" />\r\n\t\t<set-method>POST</set-method>\r\n\t\t<set-header name=\"Content-Type\" exists-action=\"override\">\r\n\t\t\t<value>application/json</value>\r\n\t\t</set-header>\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "name": "[concat(parameters('apimServiceName'), '/oms-v1;rev=4/customer-read-by-id/policy')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('apimServiceName'), 'oms-v1;rev=4', 'customer-read-by-id')]"
+      ],
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<rewrite-uri template=\"/api/v1/{submarket}/customers/{customer-id}\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "name": "[concat(parameters('apimServiceName'), '/oms-v1;rev=4/Inventory_Put/policy')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('apimServiceName'), 'oms-v1;rev=4', 'Inventory_Put')]"
+      ],
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<rewrite-uri template=\"/api/v1/{submarket}/inventory\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "name": "[concat(parameters('apimServiceName'), '/oms-v1;rev=4/Product_Put/policy')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('apimServiceName'), 'oms-v1;rev=4', 'Product_Put')]"
+      ],
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<rewrite-uri template=\"/api/v1/{submarket}/products\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "name": "[concat(parameters('apimServiceName'), '/oms-v1;rev=4/Inventory_Put/Inventory')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('apimServiceName'), 'oms-v1;rev=4', 'Inventory_Put')]"
+      ],
+      "properties": {
+        "displayName": "Inventory"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "name": "[concat(parameters('apimServiceName'), '/oms-v1;rev=4/Product_Put/Product')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('apimServiceName'), 'oms-v1;rev=4', 'Product_Put')]"
+      ],
+      "properties": {
+        "displayName": "Product"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/apis/policies",
+      "name": "[concat(parameters('apimServiceName'), '/oms-v1;rev=4/policy')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apimServiceName'), 'oms-v1;rev=4')]"
+      ],
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-variable name=\"submarket\" value=\"@{\n            string m = \"\";\n            if (context.Request.MatchedParameters.ContainsKey(\"submarket\")) {\n                m = (string)context.Request.MatchedParameters[\"submarket\"].ToUpper();\n            }\n            return m;\n        }\" />\r\n\t\t<!-- Readdress calls to the corresponding market based no URL parameter market-group-brand-code -->\r\n\t\t<!-- note: additional OMS backends will need addtional when sections poiting to the corresponding hybrid connection -->\r\n\t\t<choose>\r\n\t\t\t<when condition=\"@((string)context.Variables.GetValueOrDefault(\"submarket\", \"none\") == \"UKP\" || (string)context.Variables.GetValueOrDefault(\"submarket\") == \"UKN\")\">\r\n\t\t\t\t<!-- OR condition can be added for submarkets under the same market, sharing the same backend base URL like UKN that can be added to UKP condition-->\r\n\t\t\t\t<set-backend-service base-url=\"https://{{FunctionCoreBaseUrl}}.azurewebsites.net/api/{{HC-OMS-UK}}/\" />\r\n\t\t\t\t<!-- Set OMS Market instance backend API key -->\r\n\t\t\t\t<set-header name=\"X-ApiKey\" exists-action=\"override\">\r\n\t\t\t\t\t<value>{{X-ApiKey-OMS-UK}}</value>\r\n\t\t\t\t</set-header>\r\n\t\t\t</when>\r\n\t\t\t<!-- When needing adding a new OMS backend market API use the following template>            \n            <when condition=\"(string)context.Variables.GetValueOrDefault(\"submarket\", \"none\") == \"<SubMarket Code>\")\">  : being <SubMarket Code> the code of the submarket, for example UKP, UKP, ES, etc..\n                <set-backend-service base-url=\"https://{{FunctionCoreBaseUrl}}.azurewebsites.net/api/{{<HC name for the submarket>}}/\" />   : being <HC name for the submarket> the HC name value for the Market, for example HC-oms-UK\n            </when>   \n            Example Below for adding Spain         \n            <when condition=\"(string)context.Variables.GetValueOrDefault(\"submarket\", \"none\") == \"ES\")\">\n                <set-backend-service base-url=\"https://{{FunctionCoreBaseUrl}}.azurewebsites.net/api/{{HC-oms-ES}}/\" />\n            </when-->\r\n\t\t\t<otherwise>\r\n\t\t\t\t<return-response>\r\n\t\t\t\t\t<set-status code=\"501\" reason=\"Submarket Not Configured Yet\" />\r\n\t\t\t\t\t<set-header name=\"content-type\" exists-action=\"override\">\r\n\t\t\t\t\t\t<value>application/json</value>\r\n\t\t\t\t\t</set-header>\r\n\t\t\t\t\t<set-body>@{ return new JObject(\n                        new JProperty(\"statusCode\",501),\n                        new JProperty(\"message\", String.Format(\"The OMS Submarket {0} is not configured in this API. Contact API owner to request adding it.\",\n                                                (string)context.Request.MatchedParameters[\"submarket\"]\n                                                ))\n                        ).ToString();\n                    }</set-body>\r\n\t\t\t\t</return-response>\r\n\t\t\t</otherwise>\r\n\t\t</choose>\r\n\t\t<!--Build Authorization Scope value by Market to validate OAuth Token-->\r\n\t\t<set-variable name=\"client_role\" value=\"@{                    \n                return \"write:submarket-\" + (string)context.Variables.GetValueOrDefault(\"submarket\");                    \n            }\" />\r\n\t\t<!-- Validate JWT OAuth2.0 jwt token -->\r\n\t\t<validate-jwt header-name=\"Authorization\" failed-validation-httpcode=\"401\" failed-validation-error-message=\"Unauthorized. Access token is missing or invalid.\">\r\n\t\t\t<openid-config url=\"https://login.microsoftonline.com/705d07a3-2eea-4f3b-ab59-65ca29abeb26/v2.0/.well-known/openid-configuration\" />\r\n\t\t\t<required-claims>\r\n\t\t\t\t<claim name=\"aud\">\r\n\t\t\t\t\t<value>{{OMSHrAudience}}</value>\r\n\t\t\t\t</claim>\r\n\t\t\t\t<claim name=\"roles\" match=\"any\">\r\n\t\t\t\t\t<value>all</value>\r\n\t\t\t\t\t<value>@((string)context.Variables[\"client_role\"])</value>\r\n\t\t\t\t</claim>\r\n\t\t\t</required-claims>\r\n\t\t</validate-jwt>\r\n\t\t<!-- Get Function Key if exists in cache, otherwise request to keyvault -->\r\n\t\t<cache-lookup-value key=\"Function-proxycore-key\" variable-name=\"functionKey\" />\r\n\t\t<choose>\r\n\t\t\t<when condition=\"@(!context.Variables.ContainsKey(\"functionKey\"))\">\r\n\t\t\t\t<!-- If the configuration doesn’t exist, make an HTTP request to retrieve it.  -->\r\n\t\t\t\t<send-request mode=\"new\" response-variable-name=\"Secret-Function-proxycore-key\" timeout=\"20\" ignore-error=\"false\">\r\n\t\t\t\t\t<set-url>{{vaultBaseUrl}}/secrets/Function-proxycore-key/?api-version=7.0</set-url>\r\n\t\t\t\t\t<set-method>GET</set-method>\r\n\t\t\t\t\t<authentication-managed-identity resource=\"https://vault.azure.net\" />\r\n\t\t\t\t</send-request>\r\n\t\t\t\t<set-variable name=\"functionKey\" value=\"@{\n                    return (string) ((IResponse)context.Variables[\"Secret-Function-proxycore-key\"]).Body.As<JObject>()[\"value\"];\n                }\" />\r\n\t\t\t\t<cache-store-value key=\"Function-proxycore-key\" value=\"@((string)context.Variables[\"functionKey\"])\" duration=\"60\" />\r\n\t\t\t</when>\r\n\t\t</choose>\r\n\t\t<!-- Set function app key Header -->\r\n\t\t<set-header name=\"x-functions-key\" exists-action=\"override\">\r\n\t\t\t<value>@{\n                return (string) (context.Variables[\"functionKey\"]);\n            }</value>\r\n\t\t</set-header>\r\n\t\t<set-header name=\"Authorization\" exists-action=\"delete\" />\r\n\t\t<set-header name=\"Ocp-Apim-Subscription-Key\" exists-action=\"delete\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t\t<!-- Authorization errors (401) from OMS comes with no response body-->\r\n\t\t<!-- Enahcing the response to inform the API consumer of the actual issue -->\r\n\t\t<set-variable name=\"bodySize\" value=\"@(context.Response.Headers[\"Content-Length\"][0])\" />\r\n\t\t<choose>\r\n\t\t\t<when condition=\"@(context.Response.StatusCode == 401 && int.Parse(context.Variables.GetValueOrDefault<string>(\"bodySize\")) == 0)\">\r\n\t\t\t\t<set-body>@{ return new JObject(\n                    new JProperty(\"statusCode\",401),\n                    new JProperty(\"message\", \"OMS API key, stored in APIM, not valid. Contact API owner to request updating it.\")).ToString();\n                }</set-body>\r\n\t\t\t</when>\r\n\t\t</choose>\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<set-header name=\"ErrorSource\" exists-action=\"override\">\r\n\t\t\t<value>@(context.LastError.Source)</value>\r\n\t\t</set-header>\r\n\t\t<set-header name=\"ErrorReason\" exists-action=\"override\">\r\n\t\t\t<value>@(context.LastError.Reason)</value>\r\n\t\t</set-header>\r\n\t\t<set-header name=\"ErrorMessage\" exists-action=\"override\">\r\n\t\t\t<value>@(context.LastError.Message)</value>\r\n\t\t</set-header>\r\n\t\t<set-header name=\"ErrorScope\" exists-action=\"override\">\r\n\t\t\t<value>@(context.LastError.Scope)</value>\r\n\t\t</set-header>\r\n\t\t<set-header name=\"ErrorSection\" exists-action=\"override\">\r\n\t\t\t<value>@(context.LastError.Section)</value>\r\n\t\t</set-header>\r\n\t\t<set-header name=\"ErrorPath\" exists-action=\"override\">\r\n\t\t\t<value>@(context.LastError.Path)</value>\r\n\t\t</set-header>\r\n\t\t<set-header name=\"ErrorPolicyId\" exists-action=\"override\">\r\n\t\t\t<value>@(context.LastError.PolicyId)</value>\r\n\t\t</set-header>\r\n\t\t<set-header name=\"ErrorStatusCode\" exists-action=\"override\">\r\n\t\t\t<value>@(context.Response.StatusCode.ToString())</value>\r\n\t\t</set-header>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      }
+    }
+  ]
+}

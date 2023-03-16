@@ -1,0 +1,35 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "apimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/Inventory')]",
+      "properties": {
+        "displayName": "Inventory"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/OMS')]",
+      "properties": {
+        "displayName": "OMS"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "name": "[concat(parameters('apimServiceName'), '/Product')]",
+      "properties": {
+        "displayName": "Product"
+      }
+    }
+  ]
+}

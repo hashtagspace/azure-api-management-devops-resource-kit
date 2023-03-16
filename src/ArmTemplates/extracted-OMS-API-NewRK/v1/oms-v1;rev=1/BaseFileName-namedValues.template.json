@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "apimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "name": "[concat(parameters('apimServiceName'), '/FunctionCoreBaseUrl')]",
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "FunctionCoreBaseUrl",
+        "value": "function-msfwex17-esb-runtime-core-dev"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "name": "[concat(parameters('apimServiceName'), '/HC-OMS-UK')]",
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "HC-OMS-UK",
+        "value": "oms-uk-dev"
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "name": "[concat(parameters('apimServiceName'), '/vaultbaseurl')]",
+      "properties": {
+        "secret": false,
+        "displayName": "vaultBaseUrl",
+        "value": "https://vault-msfwex17-01-dev.vault.azure.net/"
+      }
+    }
+  ]
+}

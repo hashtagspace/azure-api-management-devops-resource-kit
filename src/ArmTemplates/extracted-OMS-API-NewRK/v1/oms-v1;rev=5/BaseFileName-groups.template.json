@@ -1,0 +1,321 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "apimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/administrators')]",
+      "properties": {
+        "description": "Administrators is a built-in group containing the admin email account provided at the time of service creation. Its membership is managed by the system.",
+        "displayName": "Administrators",
+        "type": "system",
+        "builtIn": true
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/bts-marketing-and-sales-digital-solutions')]",
+      "properties": {
+        "description": "DIgital Solutions Team in BTS M&S",
+        "displayName": "BTS  Marketing and Sales Digital Solutions",
+        "type": "custom",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/BTS Marketing and Sales')]",
+      "properties": {
+        "description": "BTS Marketing and Sales  ",
+        "displayName": "BTS Marketing and Sales",
+        "type": "custom",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/61433d4860d1bb26e806676b')]",
+      "properties": {
+        "description": "JTI Corporate APIM Administrators RITM1642971",
+        "displayName": "Cloud-CorporateAPIM-Admin",
+        "type": "external",
+        "externalId": "aad://705d07a3-2eea-4f3b-ab59-65ca29abeb26/groups/c701b32d-228f-499c-889e-ab003c4ca65f",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/608a9c59b896102db6b91372')]",
+      "properties": {
+        "description": "Create AAD group for APIM Domain Platform Admin members RITM1588444",
+        "displayName": "Cloud-DomainAPIM-Admin",
+        "type": "external",
+        "externalId": "aad://705d07a3-2eea-4f3b-ab59-65ca29abeb26/groups/69947d20-74ae-4552-9150-bb47d06f0c2d",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/cloud-gdc-didc-integration-plce-dev')]",
+      "properties": {
+        "displayName": "Cloud-GDC-DIDC-INTEGRATION-PLCE-DEV",
+        "type": "custom",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/developers')]",
+      "properties": {
+        "description": "Developers is a built-in group. Its membership is managed by the system. Signed-in users fall into this group.",
+        "displayName": "Developers",
+        "type": "system",
+        "builtIn": true
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/615d4b8232aa96019576cb34')]",
+      "properties": {
+        "description": "Resp: Purik, Lyudmila RITM1374713",
+        "displayName": "DL BTS Indirect Procurement",
+        "type": "external",
+        "externalId": "aad://705d07a3-2eea-4f3b-ab59-65ca29abeb26/groups/556e34bc-1b6a-48e2-bf7b-97e686385a71",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/5ee76773df43bff1f7d0777b')]",
+      "properties": {
+        "description": "GDC DIDC",
+        "displayName": "GDC DIDC",
+        "type": "external",
+        "externalId": "aad://corp.jti.com/groups/59a29359-5438-4716-bdaf-9385badeea80",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/GDC Enterprise Architecture')]",
+      "properties": {
+        "displayName": "GDC Enterprise Architecture",
+        "type": "custom",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/GDC Microsoft  and Mobility Delivery Center')]",
+      "properties": {
+        "description": "Microsoft and Mobility Delivery Center",
+        "displayName": "GDC Microsoft  and Mobility Delivery Center",
+        "type": "custom",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/GDC Oracle Delivery Center')]",
+      "properties": {
+        "description": "Oracle Delivery Center",
+        "displayName": "GDC Oracle Delivery Center",
+        "type": "custom",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/gdc-sap-delivery-center')]",
+      "properties": {
+        "displayName": "GDC SAP Delivery Center",
+        "type": "custom",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/62695aa83912c50ee834d1cd')]",
+      "properties": {
+        "description": "Access to FMS Rest API application Belyaev, Yuriy RITM1617136",
+        "displayName": "Global-AAP-FMSRestAPIApp",
+        "type": "external",
+        "externalId": "aad://705d07a3-2eea-4f3b-ab59-65ca29abeb26/groups/304dec6b-5436-41b7-b9bf-8aa5ca1e587a",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/6262c14da6f00f699178cc86')]",
+      "properties": {
+        "description": "OneTrust APIM security group Abdusamiev, Khushruz RITM1903781",
+        "displayName": "GLOBAL-OneTrust-APIM",
+        "type": "external",
+        "externalId": "aad://705d07a3-2eea-4f3b-ab59-65ca29abeb26/groups/818129ad-d7d6-438c-9837-94aea50be30a",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/global-tmec-glb-didc')]",
+      "properties": {
+        "displayName": "Global-TMEC-GLB-DIDC",
+        "type": "custom",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/guests')]",
+      "properties": {
+        "description": "Guests is a built-in group. Its membership is managed by the system. Unauthenticated users visiting the developer portal fall into this group.",
+        "displayName": "Guests",
+        "type": "system",
+        "builtIn": true
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/it-sweden')]",
+      "properties": {
+        "description": "Swedish Market IT Team",
+        "displayName": "IT - Sweden",
+        "type": "custom",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/it-united-kingdom')]",
+      "properties": {
+        "description": "UK Market IT Team",
+        "displayName": "IT - United Kingdom",
+        "type": "custom",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/ivalua-ru-data')]",
+      "properties": {
+        "description": "Team with access to Ivalua RU Data API",
+        "displayName": "Ivalua RU Data",
+        "type": "custom",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/market-it-sweden')]",
+      "properties": {
+        "displayName": "Market IT : Sweden",
+        "type": "custom",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/partners-evolusys')]",
+      "properties": {
+        "description": "Group for Evolusys developpers",
+        "displayName": "Partners: Evolusys",
+        "type": "custom",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/partners-planorama')]",
+      "properties": {
+        "description": "Group for planorama developpers",
+        "displayName": "Partners: Planorama",
+        "type": "custom",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/partners-viseo')]",
+      "properties": {
+        "displayName": "Partners: Viseo",
+        "type": "custom",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/sap-po-dev-team')]",
+      "properties": {
+        "description": "SAP PO Development team",
+        "displayName": "SAP PO Dev team",
+        "type": "custom",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/5ce7e3787451abe9811e154e')]",
+      "properties": {
+        "description": "BTS-M&S-DSS Grande, Antonio RITM1023358",
+        "displayName": "SPAMAD01-BTS-MS-DSS",
+        "type": "external",
+        "externalId": "aad://jticorp.onmicrosoft.com/groups/b15bc92d-fae4-4ab0-96c3-e3eacfc06a9e",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/5dadd56a6d8388b474b2676d')]",
+      "properties": {
+        "description": "TME Connect BI Ortega, Alberto RITM1261276",
+        "displayName": "SWIGVA01-TME-CONNECT-BI",
+        "type": "external",
+        "externalId": "aad://jticorp.onmicrosoft.com/groups/ade7852a-1d83-4251-be12-8a83fe0c8e40",
+        "builtIn": false
+      }
+    },
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/groups",
+      "name": "[concat(parameters('apimServiceName'), '/5e8f383f4e72da4cd6d56ddf')]",
+      "properties": {
+        "displayName": "SWIGVA01-TME-GDC",
+        "type": "external",
+        "externalId": "aad://jticorp.onmicrosoft.com/groups/9bc15c0f-ea5f-4720-bd25-0f9e24029393",
+        "builtIn": false
+      }
+    }
+  ]
+}

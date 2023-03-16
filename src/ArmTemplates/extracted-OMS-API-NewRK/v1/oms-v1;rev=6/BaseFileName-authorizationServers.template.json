@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "apimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/authorizationServers",
+      "name": "[concat(parameters('apimServiceName'), '/JTI-MS-AAD-CC')]",
+      "properties": {
+        "description": "JTI Microsoft Azure Active Directory (Client Credentials & Authorization code)",
+        "authorizationMethods": [
+          "GET",
+          "POST"
+        ],
+        "clientAuthenticationMethod": [
+          "Body"
+        ],
+        "tokenBodyParameters": [],
+        "tokenEndpoint": "https://login.microsoftonline.com/705d07a3-2eea-4f3b-ab59-65ca29abeb26/oauth2/v2.0/token",
+        "supportState": false,
+        "defaultScope": "",
+        "bearerTokenSendingMethods": [
+          "authorizationHeader"
+        ],
+        "displayName": "JTI MS AAD",
+        "clientRegistrationEndpoint": "https://www.jti.com",
+        "authorizationEndpoint": "https://login.microsoftonline.com/705d07a3-2eea-4f3b-ab59-65ca29abeb26/oauth2/v2.0/authorize",
+        "grantTypes": [
+          "clientCredentials",
+          "authorizationCode"
+        ],
+        "clientId": "21b6a998-f1bc-491a-bbd0-762f6beafb9c"
+      }
+    }
+  ]
+}

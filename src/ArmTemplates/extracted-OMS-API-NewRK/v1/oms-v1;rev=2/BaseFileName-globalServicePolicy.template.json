@@ -1,0 +1,20 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "apimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2021-08-01",
+      "type": "Microsoft.ApiManagement/service/policies",
+      "name": "[concat(parameters('apimServiceName'), '/policy')]",
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - Only the <forward-request> policy element can appear within the <backend> section element.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy position the cursor at the desired insertion point and click on the round button associated with the policy.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Policies are applied in the order of their appearance, from the top down.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<!-- Delete Subscription Key header DEFAULT only used by security of APIM -->\r\n\t\t<set-header name=\"Ocp-Apim-Subscription-Key\" exists-action=\"delete\" />\r\n\t\t<!-- Delete Subscription Key header Custom only used by security of APIM -->\r\n\t\t<!--<set-query-parameter name=\"subscription-key\" exists-action=\"delete\" />-->\r\n\t\t<!-- Add rate limit to 500 calls -->\r\n\t\t<rate-limit-by-key calls=\"500\" renewal-period=\"1\" counter-key=\"QAMaxCallsPerSecond\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<forward-request />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<!-- Override Strict-Transport-Security this blocks access to pages or sub domains that can only be served over HTTP -->\r\n\t\t<set-header name=\"Strict-Transport-Security\" exists-action=\"override\">\r\n\t\t\t<value>max-age=31536000</value>\r\n\t\t</set-header>\r\n\t\t<!-- Override X-XSS-Protection block pages from loading when they detect reflected XSS attacks  -->\r\n\t\t<set-header name=\"X-XSS-Protection\" exists-action=\"override\">\r\n\t\t\t<value>1; mode=block</value>\r\n\t\t</set-header>\r\n\t\t<!-- Override Content-Security-Policy all content to come from the site's own origin (this excludes subdomains.) -->\r\n\t\t<set-header name=\"Content-Security-Policy\" exists-action=\"override\">\r\n\t\t\t<value>script-src 'self'</value>\r\n\t\t</set-header>\r\n\t\t<!-- Override X-Frame-Options can be used to indicate whether or not a browser should be allowed to render a page  -->\r\n\t\t<set-header name=\"X-Frame-Options\" exists-action=\"override\">\r\n\t\t\t<value>deny</value>\r\n\t\t</set-header>\r\n\t\t<!-- Override X-Content-Type-Options blocks a request if the request destination is of type style and the MIME type is not text/css, script -->\r\n\t\t<set-header name=\"X-Content-Type-Options\" exists-action=\"override\">\r\n\t\t\t<value>nosniff</value>\r\n\t\t</set-header>\r\n\t\t<!-- Override Expect-Ct to prevent the use of misissued certificates for that site from going unnoticed. -->\r\n\t\t<set-header name=\"Expect-Ct\" exists-action=\"override\">\r\n\t\t\t<value>max-age=86400,enforce</value>\r\n\t\t</set-header>\r\n\t\t<!-- Override Cache-Control in both requests and responses that control caching in browsers and shared caches -->\r\n\t\t<set-header name=\"Cache-Control\" exists-action=\"override\">\r\n\t\t\t<value>none</value>\r\n\t\t</set-header>\r\n\t\t<!-- Delete X-Powered-By and X-AspNet-Version the info about a header technology stack that is running on the backend-->\r\n\t\t<set-header name=\"X-Powered-By\" exists-action=\"delete\" />\r\n\t\t<set-header name=\"X-AspNet-Version\" exists-action=\"delete\" />\r\n\t</outbound>\r\n\t<on-error />\r\n</policies>",
+        "format": "rawxml"
+      }
+    }
+  ]
+}
